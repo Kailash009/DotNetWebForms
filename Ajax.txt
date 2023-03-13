@@ -1,0 +1,530 @@
+Skin File in asp.net:-
+--------------------------------------------------------------------
+>> It is used for designing purpose.
+>> It is used to design asp controls in fast manner.
+--------------------------------------------------------------------
+<%@ Page Language="C#" AutoEventWireup="true" StylesheetTheme="Mandy" CodeBehind="Skin.aspx.cs" Inherits="MandyWebForms.Skin" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div>
+            <asp:TextBox ID="txtFirst" runat="server" SkinID="t2"></asp:TextBox>
+            <asp:TextBox ID="txtSecond" SkinID="t1" runat="server" ></asp:TextBox>
+            <asp:Button ID="btnSum" SkinID="b2" runat="server" Text="SUM"  />
+            <asp:Button ID="btnMult" SkinID="b1" runat="server" Text="MULT" />
+        </div>
+    </form>
+</body>
+</html>
+---------------------------------------------------------------------------------------------------------
+<asp:TextBox  runat="server" SkinID="t1" BackColor="Red"></asp:TextBox>
+<asp:TextBox  runat="server" SkinID="t2" BackColor="Green"></asp:TextBox>
+<asp:Button  runat="server" SkinID="b1" Text="SUM" BackColor="blue" />
+<asp:Button  runat="server" SkinID="b2" Text="MULT" BackColor="Yellow" />
+-------------------------------------------------------------------------------------------------------------
+AJAX in asp.net:-
+----------------------------------------------
+>> Asynchrounous Java Script and XML.
+>> it increase the response time of our website.
+>> It is used for partial post back.
+>> without reloading the whole page again and again to the server we can able to send the request.
+-------------------------------------------------------------------------------------------------------------------------------------
+To impement ajax in asp.net we have built-in controls:-
+----------------------------------------------------------------------------------
+1. Update Panel.
+2. Timer.
+3. ScriptManager
+4. Update Progress
+5. Script Manager Proxy.
+------------------------------------------------------------------------------
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ajaxex.aspx.cs" Inherits="MandyWebForms.ajaxex" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div>
+            <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
+            <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+                <ContentTemplate>
+            <asp:Timer ID="Timer1" runat="server" Interval="1000" OnTick="Timer1_Tick"></asp:Timer>
+            <asp:Label ID="lblShow" runat="server" ForeColor="Red" Font-Bold="true" Font-Size="Larger"></asp:Label> <br /><br />
+                    <asp:Button ID="btnProgress" runat="server" Text="Start Progress" OnClick="btnProgress_Click" /> <br /><br />
+            <asp:Label ID="lblMsg" runat="server" ForeColor="Green" Font-Bold="true" Font-Size="Larger"></asp:Label> <br />
+                    </ContentTemplate>
+            </asp:UpdatePanel>
+            <asp:UpdateProgress ID="UpdateProgress1" runat="server">
+                <ProgressTemplate>
+                    <asp:Image ID="lblImg" runat="server" ImageUrl="~/images/progress.gif" />
+                </ProgressTemplate>
+            </asp:UpdateProgress>
+        </div>
+    </form>
+</body>
+</html>
+-------------------------------------------------------------------------------------------------------
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+namespace MandyWebForms
+{
+    public partial class ajaxex : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            lblShow.Text = DateTime.Now.ToLongTimeString();
+        }
+
+        protected void Timer1_Tick(object sender, EventArgs e)
+        {
+            lblShow.Text = DateTime.Now.ToLongTimeString();
+        }
+
+        protected void btnProgress_Click(object sender, EventArgs e)
+        {
+            System.Threading.Thread.Sleep(5000);
+            lblMsg.Text = "Progress Done.......";
+        }
+    }
+}
+----------------------------------------------------------------------------------------------------------------------------
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ajaxex.aspx.cs" Inherits="MandyWebForms.ajaxex" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div>
+            <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
+            <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+                <ContentTemplate>
+                    <table>
+               <tr>
+                   <td>First Number</td>
+                   <td><asp:TextBox ID="txtFirst" runat="server"></asp:TextBox>  </td>
+               </tr>
+               <tr>
+                   <td>Second Number</td>
+                   <td><asp:TextBox ID="txtSecond" runat="server"></asp:TextBox>  </td>
+               </tr>
+               <tr>
+                   <td>Result</td>
+                   <td><asp:Label ID="lblRes" runat="server" ForeColor="Red" Font-Size="Larger"></asp:Label>  </td>
+               </tr>
+               <tr>
+                   <td>
+                       <asp:Button ID="btnAddition" runat="server" Text="Sum" OnClick="btnAddition_Click" />
+                   </td>
+               </tr>
+           </table>
+                </ContentTemplate>
+            </asp:UpdatePanel>
+
+            <asp:UpdateProgress ID="UpdateProgress1" runat="server">
+                <ProgressTemplate>
+                      <asp:Image ID="lblImg" runat="server" ImageUrl="~/images/progress.gif" />
+                </ProgressTemplate>
+            </asp:UpdateProgress>
+
+            </div>
+    </form>
+</body>
+</html>
+-----------------------------------------------------------------------------------------------------------------------------------------------
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+namespace MandyWebForms
+{
+    public partial class ajaxex : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+           
+        }
+        protected void btnAddition_Click(object sender, EventArgs e)
+        {
+            int a =Convert.ToInt32(txtFirst.Text);
+            int b = Convert.ToInt32(txtSecond.Text);
+            int res = a + b;
+            System.Threading.Thread.Sleep(5000);
+            lblRes.Text = res.ToString();
+        }
+    }
+}
+-------------------------------------------------------------------------------------------------------------------------------------------------
+StateMangement in asp.net:-
+--------------------------------------------
+https://www.amazon.in/
+-----------------------------------------
+http ->> StateLess Protocol.
+-------------------------------------------
+>> It doesn't maintain the information between client and server.
+----------------------------------------------------------------------------------------------
+Statement Management Technique:-
+----------------------------------------------------
+1. Client Side State Management.
+	a) ViewState.
+	b) Query String.
+	c) Hidden Fields.
+	d) Cookies.
+-------------------------------------------------------------------------------------------
+2. Server Side State Management.
+	a) Session.
+	b) Application.
+------------------------------------------------------
+a) ViewState :-
+>> It retain value in roundtrip. (single page)
+>> you can't send viewstate value into another page.
+Syntax:-
+------------------
+ViewState["keyname/varname"]=value;
+------------------------------------------------------------------------------------------------
+wap to perform visitor count.
+--------------------------------------------------
+
+        protected void btnCount_Click(object sender, EventArgs e)
+        {
+            int count=0;
+            if (ViewState["count"]== null)
+            {
+                count = 1;
+            }
+            else
+            {
+                count = (int)ViewState["count"] + 1;
+            }
+            ViewState["count"] = count;
+            Response.Write(count);
+        }
+--------------------------------------------------------------------------------------------------
+Query String/ URL-Re-writing:-
+---------------------------------------------------
+>> it is used to send data from one page to another page.
+>> everything will be seen in URL.
+------------------------------------------------------------
+General Syntax of Query String:-
+---------------------------------------------
+http://localhost:4500/StatementMangement.aspx?varname1=value1&varname2=value2&varname3=value3
+https://localhost:44394/Welcome.aspx?user=mandy&password=admin
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="StateManagement.aspx.cs" Inherits="MandyWebForms.StateManagement" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <h1>Example of View State</h1>
+        <div>
+            <asp:Button ID="btnCount" runat="server" Text="Visitor Count" OnClick="btnCount_Click" />
+        </div>
+        <div>
+            <h1>**Example of Query String**</h1>
+            <table>
+                <tr>
+                    <td>User Name</td>
+                    <td><asp:TextBox ID="txtUserName" runat="server"></asp:TextBox>  </td>
+                </tr>
+                <tr>
+                    <td>Password</td>
+                    <td><asp:TextBox ID="txtPassword" runat="server" TextMode="Password"></asp:TextBox>  </td>
+                </tr>
+                <tr>
+                    
+                    <td> <asp:Button ID="btnLogin" runat="server" Text="Login" OnClick="btnLogin_Click" /> </td>
+                </tr>
+            </table>
+        </div>
+    </form>
+</body>
+</html>
+---------------------------------------------------------------------
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+namespace MandyWebForms
+{
+    public partial class StateManagement : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void btnCount_Click(object sender, EventArgs e)
+        {
+            int count=0;
+            if (ViewState["count"]== null)
+            {
+                count = 1;
+            }
+            else
+            {
+                count = (int)ViewState["count"] + 1;
+            }
+            ViewState["count"] = count;
+            Response.Write(count);
+        }
+
+        protected void btnLogin_Click(object sender, EventArgs e)
+        {
+            if (txtUserName.Text == "mandy" && txtPassword.Text == "admin")
+            {
+                Response.Redirect("Welcome.aspx?user="+txtUserName.Text+"&password="+txtPassword.Text);
+            }
+            else
+            {
+                Response.Write("<script>alert('Login Failed!!');</script>");
+            }
+        }
+    }
+}
+-------------------------------------------------------------------------------------------------------------
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Welcome.aspx.cs" Inherits="MandyWebForms.Welcome" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div>
+            <h1> WELCOME TO MY DASHBOARD </h1>
+            <h3> <asp:Label ID="lblMsg" runat="server" ForeColor="Red" Font-Size="Larger"></asp:Label>  </h3>
+            <h3> <asp:Label ID="lblPaswd" runat="server" ForeColor="Green" Font-Size="Larger"></asp:Label>  </h3>
+        </div>
+    </form>
+</body>
+</html>
+---------------------------------------------------------------------------------------------------
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Configuration;
+using System.Web.UI;
+
+namespace MandyWebForms
+{
+    public partial class Welcome : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            string username = Request.QueryString["user"];
+            string passwd = Request.QueryString["password"];
+            if (username != null && passwd!=null)
+            {
+                lblMsg.Text = "Welcome!" + username;
+                lblPaswd.Text = "My Password is" + passwd;
+            }
+        }
+    }
+}
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
