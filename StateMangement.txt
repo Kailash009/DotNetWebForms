@@ -1,0 +1,242 @@
+Client Side statement
+1. ViewState.
+2. Query String
+3. Hidden Fields
+>> It is used to hide your information,it is used to tranfer your information between one page to another.
+>> you don't want to show your id in your webpage but u need this id to perform some operation.
+-----------------------------------------------------------------------------------------------------------------------------------------------
+wap to visit count using hidden field.
+----------------------------------------------------------
+ protected void btnHidden_Click(object sender, EventArgs e)
+        {
+            int count =Convert.ToInt32(hdnCount.Value);
+            if (count == 0)
+            {
+                count = 1;
+            }
+            else
+            {
+                count++;
+            }
+            hdnCount.Value = count.ToString();
+            Response.Write(count);
+        }
+--------------------------------------------------------------------------------------------------
+ <div>
+            <h1>Example of Hidden Field </h1>
+            <asp:Button ID="btnHidden" runat="server" Text="Show Hidden Value" OnClick="btnHidden_Click"/>
+            <asp:HiddenField ID="hdnCount" runat="server" Value="0" />
+            <asp:Button ID="btnShow" runat="server" Text="Open in New Tab" PostBackUrl="~/Welcome.aspx" />
+
+        </div>
+----------------------------------------------------------------------------------------------------------------------
+4. Cookies:-
+----------------------------------
+>> It is small piece of software, that store small piece of information at client machine.
+>> it stores only string data.
+>> it doesn't keep large amount of data.
+>> The default life time of cookies is 30 Min.
+---------------------------------------------------------------------------------------------------------------
+Types of Cookies:-
+----------------------------------
+a. Non-Persistent.
+>> It store cookie information on a temporarily basis.
+>> As soon as when you close your browser window or turn off your computer it will automatically clear from browser.
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+b. Persistent.
+>> It store cookie information on a Permanent basis.
+>> It will store cookie information remain persist even after when you close your browser window or turn off your computer.
+>> In this you have to set cookie time.
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+1. How to write cookie.
+2. How to read cookie.
+---------------------------------------
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="writecookie.aspx.cs" Inherits="MandyWebForms.writecookie" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <h1>***Write Cookies**</h1>
+        <div>
+            Enter your Name:
+            <asp:TextBox ID="txtName" runat="server"></asp:TextBox>
+            <asp:Button ID="btnWrite" runat="server" Text="Write Cookie" OnClick="btnWrite_Click" />
+        </div>
+    </form>
+</body>
+</html>
+---------------------------------
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+namespace MandyWebForms
+{
+    public partial class writecookie : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void btnWrite_Click(object sender, EventArgs e)
+        {
+            HttpCookie cookie = new HttpCookie("MyCookie");
+            if (cookie != null)
+            {
+               cookie["name"]= txtName.Text; // SET
+               Response.Cookies.Add(cookie);
+               cookie.Expires = DateTime.Now.AddDays(2);
+            }
+        }
+    }
+}
+-----------------------------------------------------------
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="readcookie.aspx.cs" Inherits="MandyWebForms.readcookie" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+</head>
+<body>
+    <form id="form1" runat="server">
+       <h1>***Read Cookies**</h1>
+        <div>
+            Read your Name:
+            <asp:TextBox ID="txtName" runat="server"></asp:TextBox>
+            <asp:Button ID="btnRead" runat="server" Text="Read From Cookie" OnClick="btnRead_Click" />
+        </div>
+    </form>
+</body>
+</html>
+------------------------------
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+namespace MandyWebForms
+{
+    public partial class readcookie : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void btnRead_Click(object sender, EventArgs e)
+        {
+            HttpCookie cookie = Request.Cookies["MyCookie"];
+            if (cookie != null)
+            { 
+                txtName.Text = cookie["name"];   // GET
+            }
+            else
+            {
+                txtName.Text = "Cookies Not Available";
+            }
+        }
+    }
+}
+---------------------------------------------------------------------------------------------------------------------------------
+Server side:-
+--------------------
+1. Session.
+2. Application
+-------------------------------
+1. Session:-
+-----------------------
+>> It is hold large amount of data.
+>> Session can be accessed  throughout webpages.
+>> It is Global Management protocol.
+>> It is a heavy weight.
+>> The Default time of session is 20 Min.
+-----------------------------------------------------------------------------------------------
+ protected void btnSession_Click(object sender, EventArgs e)
+        {
+            if (txtuname.Text == "mandy" && txtpaswd.Text == "123")
+            {
+                Session["uname"] = txtuname.Text;  // SET
+                Response.Redirect("Welcome.aspx");
+            }
+            else
+            {
+                Response.Redirect("StateManagement.aspx");
+            }
+        }
+-------------------------------
+ <div>
+            <h1>**Example of Session**</h1>
+            <table>
+                <tr>
+                    <td>User Name</td>
+                    <td><asp:TextBox ID="txtuname" runat="server"></asp:TextBox>  </td>
+                </tr>
+                <tr>
+                    <td>Password</td>
+                    <td><asp:TextBox ID="txtpaswd" runat="server" TextMode="Password"></asp:TextBox>  </td>
+                </tr>
+                <tr>
+                    
+                    <td> <asp:Button ID="btnSession" runat="server" Text="Login" OnClick="btnSession_Click" /> </td>
+                </tr>
+            </table>
+        </div>
+----------------------
+  protected void Page_Load(object sender, EventArgs e)
+        {
+            if (Session["uname"] != null)
+            {
+                lblMsg.Text = "Welcome!" + Session["uname"].ToString();       
+            }
+
+            //int value =Convert.ToInt32(Request.Form["hdnCount"]);
+            //lblMsg.Text = value.ToString();
+            //string username = Request.QueryString["user"];
+            //string passwd = Request.QueryString["password"];
+            //if (username != null && passwd!=null)
+            //{
+            //    lblMsg.Text = "Welcome!" + username;
+            //    lblPaswd.Text = "My Password is" + passwd;
+            //}
+        }
+--------------------------------------------------------------------------------------------------------
+2. Application:- Pending
+--------------------------------------------------
+>> you can access application value another browser too.
+---------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
